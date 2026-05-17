@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Login to Your Account</h2>
+    <form method="post" class="form">
+        {% csrf_token %}
+        <div class="form-group mb-4">
+            {{form.as_p}}
+        </div>
+        <button class="btn btn-primary-custom w-100 mb-3" type="submit">Login</button>
+    </form>
+    <p class="text-center text-muted mt-3">
+        Don't have an account? <a href="{% url 'register' %}" class="text-primary text-decoration-none" style="color: var(--primary-color) !important;">Register here</a>
+    </p>
+</div>
+{% endblock %}

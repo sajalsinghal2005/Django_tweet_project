@@ -1,0 +1,47 @@
+{% extends "layout.html"%}
+
+{%block title%}
+Chai aur tweet
+{%endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mt-4 mb-5">
+    <h1 class="text-white m-0" style="font-weight: 700; background: linear-gradient(to right, var(--primary-color), var(--secondary-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Chai's Django Project</h1>
+    <a class="btn btn-primary-custom" href="{% url 'tweet_create' %}">Create a Tweet</a>
+</div>
+
+{% if tweets %}
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    {% for tweet in tweets %}
+    <div class="col">
+        <div class="card custom-card h-100">
+            {% if tweet.photo %}
+            <img src="{{tweet.photo.url}}" class="card-img-top tweet-img" alt="Tweet Image">
+            {% else %}
+            <div class="card-img-top tweet-img d-flex align-items-center justify-content-center" style="background-color: var(--border-color);">
+                <span class="text-muted">No Image</span>
+            </div>
+            {% endif %}
+            <div class="card-body d-flex flex-column">
+                <h5 class="card-title">@{{tweet.user.username}}</h5>
+                <p class="card-text flex-grow-1">{{tweet.text}}</p>
+                {% if tweet.user == request.user %}
+                <div class="d-flex gap-2 mt-3">
+                    <a href="{%url 'tweet_edit' tweet.id %}" class="btn btn-outline-custom btn-sm w-100">Edit</a>
+                    <a href="{%url 'tweet_delete' tweet.id %}" class="btn btn-outline-danger btn-sm w-100">Delete</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+    <h3>No tweets yet.</h3>
+    <p>Be the first one to share your thoughts!</p>
+    <a class="btn btn-primary-custom mt-3" href="{% url 'tweet_create' %}">Create a Tweet</a>
+</div>
+{% endif %}
+
+{% endblock %}
